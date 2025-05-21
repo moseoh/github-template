@@ -29,9 +29,9 @@ GitHub 저장소 관리 자동화 도구를 제공합니다.
 
 ## 기타
 
-### 머지된 로컬 브랜치 정리
+### 로컬 브랜치 정리 (주의: 병합 안된 브랜치도 삭제)
 
 ```bash
 # ~/.zshrc
-alias cleanb='git branch --merged | grep -Ev "(^\*|^\+|master|develop|staging|release)" | xargs --no-run-if-empty git branch -d'
+alias cleanb='git branch | grep -Ev "(^\*|master|develop|staging|release)" | xargs --no-run-if-empty git branch -D'
 ```
