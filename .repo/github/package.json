@@ -4,6 +4,7 @@
   "description": "GitHub 저장소 관리 도구",
   "type": "commonjs",
   "scripts": {
+    "prepare": "npm start all",
     "build": "tsc",
     "start": "ts-node --transpile-only src/index.ts",
     "protect": "ts-node --transpile-only src/actions/protect-branch.ts",

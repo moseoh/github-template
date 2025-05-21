@@ -27,11 +27,17 @@ import {
   getAllBranches, 
   createBranch 
 } from "../utils/github";
-import { recordConfigured } from "../utils/gh-settings";
+import { isConfigured, recordConfigured } from "../utils/gh-settings";
 
 dotenv.config();
 
+const featureName = "protect-branch";
+
 export async function protectBranches() {
+  if (isConfigured(featureName)) {
+    return;
+  }
+
   const token = process.env.GITHUB_TOKEN!;
   const branchesEnv = process.env.PROTECTED_BRANCHES;
 
@@ -97,7 +103,7 @@ export async function protectBranches() {
     
     console.log(`\n🎉 모든 브랜치(${branches.join(", ")})에 대한 보호 규칙이 설정되었습니다.`);
     
-    recordConfigured("protect-branch");
+    recordConfigured(featureName);
   } catch (error) {
     console.error(`❌ 브랜치 보호 규칙 설정 중 오류 발생:`, error);
     process.exit(1);

@@ -21,14 +21,20 @@
 
 import * as dotenv from "dotenv";
 import { getGitRemoteInfo, createGitHubClient } from "../utils/github";
-import { recordConfigured } from "../utils/gh-settings";
+import { isConfigured, recordConfigured } from "../utils/gh-settings";
 
 dotenv.config();
+
+const featureName = "set-squash-merge";
 
 /**
  * 저장소의 PR merge 방식을 Squash merge로 설정하는 함수
  */
 export async function setSquashMergePreference() {
+  if (isConfigured(featureName)) {
+    return;
+  }
+
   const token = process.env.GITHUB_TOKEN!;
 
   if (!token) {
@@ -63,7 +69,7 @@ export async function setSquashMergePreference() {
     console.log(`  - Rebase merge: 비활성화`);
     console.log(`  - Squash merge 시 PR 제목과 설명을 유지`);
     
-    recordConfigured("set-squash-merge");
+    recordConfigured(featureName);
   } catch (error) {
     console.error("❌ 저장소 설정 업데이트 중 오류 발생:", error);
     process.exit(1);
