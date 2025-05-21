@@ -1,0 +1,16 @@
+{
+  "name": "github-repo-tools",
+  "version": "1.0.0",
+  "description": "GitHub 저장소 관리 도구",
+  "type": "commonjs",
+  "scripts": {
+    "protect-branch": "ts-node --transpile-only protect-branch.ts",
+    "start": "ts-node --transpile-only protect-branch.ts"
+  },
+  "devDependencies": {
+    "@octokit/rest": "^21.1.1",
+    "dotenv": "^16.5.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
