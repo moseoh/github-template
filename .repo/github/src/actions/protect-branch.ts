@@ -27,6 +27,7 @@ import {
   getAllBranches, 
   createBranch 
 } from "../utils/github";
+import { recordConfigured } from "../utils/gh-settings";
 
 dotenv.config();
 
@@ -95,6 +96,8 @@ export async function protectBranches() {
     }
     
     console.log(`\n🎉 모든 브랜치(${branches.join(", ")})에 대한 보호 규칙이 설정되었습니다.`);
+    
+    recordConfigured("protect-branch");
   } catch (error) {
     console.error(`❌ 브랜치 보호 규칙 설정 중 오류 발생:`, error);
     process.exit(1);

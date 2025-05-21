@@ -19,8 +19,8 @@
  */
 
 import * as dotenv from "dotenv";
-import { Octokit } from "@octokit/rest";
 import { getGitRemoteInfo, createGitHubClient } from "../utils/github";
+import { recordConfigured } from "../utils/gh-settings";
 
 dotenv.config();
 
@@ -50,6 +50,8 @@ export async function enableAutoDeleteMergedBranches() {
     
     console.log(`✅ PR 병합 시 브랜치 자동 삭제 옵션이 활성화되었습니다: ${owner}/${repo}`);
     console.log(`ℹ️ 이제부터 PR이 머지되면 소스 브랜치가 자동으로 삭제됩니다.`);
+    
+    recordConfigured("auto-delete-branch");
   } catch (error) {
     console.error("❌ 저장소 설정 업데이트 중 오류 발생:", error);
     process.exit(1);

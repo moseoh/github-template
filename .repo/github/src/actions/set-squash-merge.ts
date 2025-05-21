@@ -21,6 +21,7 @@
 
 import * as dotenv from "dotenv";
 import { getGitRemoteInfo, createGitHubClient } from "../utils/github";
+import { recordConfigured } from "../utils/gh-settings";
 
 dotenv.config();
 
@@ -61,6 +62,8 @@ export async function setSquashMergePreference() {
     console.log(`  - Merge commit: 비활성화`);
     console.log(`  - Rebase merge: 비활성화`);
     console.log(`  - Squash merge 시 PR 제목과 설명을 유지`);
+    
+    recordConfigured("set-squash-merge");
   } catch (error) {
     console.error("❌ 저장소 설정 업데이트 중 오류 발생:", error);
     process.exit(1);
