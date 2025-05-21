@@ -6,6 +6,6 @@
     "husky": "^9.1.7"
   },
   "scripts": {
-    "prepare": "cd ../.. && husky"
+    "prepare": "cd ../.. && husky && cd ./.repo/githook && node postinstall.mjs"
   }
 }
