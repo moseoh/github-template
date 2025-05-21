@@ -21,6 +21,7 @@
 
 import * as dotenv from "dotenv";
 import { getGitRemoteInfo, createGitHubClient } from "../utils/github";
+import { recordConfigured } from "../utils/gh-settings";
 
 dotenv.config();
 
@@ -61,51 +62,10 @@ export async function setSquashMergePreference() {
     console.log(`  - Merge commit: 비활성화`);
     console.log(`  - Rebase merge: 비활성화`);
     console.log(`  - Squash merge 시 PR 제목과 설명을 유지`);
+    
+    recordConfigured("set-squash-merge");
   } catch (error) {
     console.error("❌ 저장소 설정 업데이트 중 오류 발생:", error);
-    process.exit(1);
-  }
-}
-
-/**
- * 저장소의 현재 merge 설정을 확인하는 함수
- */
-export async function checkMergePreferences() {
-  const token = process.env.GITHUB_TOKEN!;
-
-  if (!token) {
-    console.error("❌ GITHUB_TOKEN이 필요합니다.");
-    process.exit(1);
-  }
-
-  const { owner, repo } = getGitRemoteInfo();
-  const octokit = createGitHubClient(token);
-
-  console.log(`🔍 저장소 merge 설정 확인 중: ${owner}/${repo}`);
-  
-  try {
-    // 저장소 정보 가져오기
-    const { data: repoInfo } = await octokit.repos.get({
-      owner,
-      repo
-    });
-    
-    console.log(`\n📊 현재 merge 설정 상태:`);
-    console.log(`  - Squash merge: ${repoInfo.allow_squash_merge ? '✅ 활성화' : '❌ 비활성화'}`);
-    console.log(`  - Merge commit: ${repoInfo.allow_merge_commit ? '✅ 활성화' : '❌ 비활성화'}`);
-    console.log(`  - Rebase merge: ${repoInfo.allow_rebase_merge ? '✅ 활성화' : '❌ 비활성화'}`);
-    
-    if (!repoInfo.allow_squash_merge) {
-      console.log(`\nℹ️ Squash merge가 비활성화되어 있습니다. 활성화하려면 'setSquashMergePreference()' 함수를 호출하세요.`);
-    }
-    
-    return {
-      allowSquashMerge: repoInfo.allow_squash_merge,
-      allowMergeCommit: repoInfo.allow_merge_commit,
-      allowRebaseMerge: repoInfo.allow_rebase_merge
-    };
-  } catch (error) {
-    console.error("❌ 저장소 설정 확인 중 오류 발생:", error);
     process.exit(1);
   }
 }

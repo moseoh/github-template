@@ -19,8 +19,8 @@
  */
 
 import * as dotenv from "dotenv";
-import { Octokit } from "@octokit/rest";
 import { getGitRemoteInfo, createGitHubClient } from "../utils/github";
+import { recordConfigured } from "../utils/gh-settings";
 
 dotenv.config();
 
@@ -50,47 +50,10 @@ export async function enableAutoDeleteMergedBranches() {
     
     console.log(`✅ PR 병합 시 브랜치 자동 삭제 옵션이 활성화되었습니다: ${owner}/${repo}`);
     console.log(`ℹ️ 이제부터 PR이 머지되면 소스 브랜치가 자동으로 삭제됩니다.`);
+    
+    recordConfigured("auto-delete-branch");
   } catch (error) {
     console.error("❌ 저장소 설정 업데이트 중 오류 발생:", error);
-    process.exit(1);
-  }
-}
-
-/**
- * 저장소에 대한 '자동으로 병합된 브랜치 삭제' 옵션의 현재 상태를 확인합니다.
- */
-export async function checkAutoDeleteMergedBranchesStatus() {
-  const token = process.env.GITHUB_TOKEN!;
-
-  if (!token) {
-    console.error("❌ GITHUB_TOKEN이 필요합니다.");
-    process.exit(1);
-  }
-
-  const { owner, repo } = getGitRemoteInfo();
-  const octokit = createGitHubClient(token);
-
-  console.log(`🔍 저장소 설정 확인 중: ${owner}/${repo}`);
-  
-  try {
-    // 저장소 정보 가져오기
-    const { data: repoInfo } = await octokit.repos.get({
-      owner,
-      repo
-    });
-    
-    const isEnabled = repoInfo.delete_branch_on_merge;
-    
-    if (isEnabled) {
-      console.log(`✅ PR 병합 시 브랜치 자동 삭제 옵션이 이미 활성화되어 있습니다: ${owner}/${repo}`);
-    } else {
-      console.log(`ℹ️ PR 병합 시 브랜치 자동 삭제 옵션이 비활성화되어 있습니다: ${owner}/${repo}`);
-      console.log(`ℹ️ 'enableAutoDeleteMergedBranches()' 함수를 호출하여 이 옵션을 활성화할 수 있습니다.`);
-    }
-    
-    return isEnabled;
-  } catch (error) {
-    console.error("❌ 저장소 설정 확인 중 오류 발생:", error);
     process.exit(1);
   }
 }
