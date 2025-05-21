@@ -176,7 +176,7 @@ async function createBranch(branchName: string, sourceBranch: string): Promise<v
         repo,
         branch,
         required_status_checks: null,
-        enforce_admins: true,
+        enforce_admins: false,
         required_pull_request_reviews: {
           required_approving_review_count: 1,
         },
