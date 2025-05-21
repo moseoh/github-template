@@ -8,5 +8,5 @@ if [ ! -d ".git" ]; then
   exit 1
 fi
 
-cd $DIR/githook || exit 1
+cd $DIR/github || exit 1
 npm install --silent
