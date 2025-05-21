@@ -4,11 +4,15 @@
   "description": "GitHub 저장소 관리 도구",
   "type": "commonjs",
   "scripts": {
-    "protect-branch": "ts-node --transpile-only protect-branch.ts",
-    "start": "ts-node --transpile-only protect-branch.ts"
+    "build": "tsc",
+    "start": "ts-node --transpile-only src/index.ts",
+    "protect": "ts-node --transpile-only src/actions/protect-branch.ts",
+    "auto-delete": "ts-node --transpile-only src/actions/auto-delete-branch.ts",
+    "check-auto-delete": "ts-node --transpile-only src/index.ts check-auto-delete"
   },
   "devDependencies": {
     "@octokit/rest": "^21.1.1",
+    "@types/node": "^20.10.6",
     "dotenv": "^16.5.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
