@@ -8,12 +8,10 @@
 import * as dotenv from "dotenv";
 import { protectBranches } from "./actions/protect-branch";
 import { 
-  enableAutoDeleteMergedBranches, 
-  checkAutoDeleteMergedBranchesStatus 
+  enableAutoDeleteMergedBranches
 } from "./actions/auto-delete-branch";
 import {
-  setSquashMergePreference,
-  checkMergePreferences
+  setSquashMergePreference
 } from "./actions/set-squash-merge";
 
 dotenv.config();
@@ -41,9 +39,7 @@ function showHelp() {
   console.log("\n예시:");
   console.log("  npm run start protect           # 브랜치 보호 규칙 설정");
   console.log("  npm run start auto-delete       # 머지된 PR의 브랜치 자동 삭제 옵션 활성화");
-  console.log("  npm run start check-auto-delete # 자동 삭제 옵션 상태 확인");
   console.log("  npm run start squash-merge      # PR 병합 방식을 Squash merge로 설정");
-  console.log("  npm run start check-merge       # 현재 PR 병합 방식 설정 확인");
   console.log("  npm run start all               # 모든 기능 실행");
   console.log("");
 }
@@ -59,14 +55,8 @@ async function main() {
     case "auto-delete":
       await enableAutoDeleteMergedBranches();
       break;
-    case "check-auto-delete":
-      await checkAutoDeleteMergedBranchesStatus();
-      break;
     case "squash-merge":
       await setSquashMergePreference();
-      break;
-    case "check-merge":
-      await checkMergePreferences();
       break;
     case "all":
       console.log("🚀 모든 기능 실행 중...");
