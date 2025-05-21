@@ -8,7 +8,9 @@
     "start": "ts-node --transpile-only src/index.ts",
     "protect": "ts-node --transpile-only src/actions/protect-branch.ts",
     "auto-delete": "ts-node --transpile-only src/actions/auto-delete-branch.ts",
-    "check-auto-delete": "ts-node --transpile-only src/index.ts check-auto-delete"
+    "check-auto-delete": "ts-node --transpile-only src/index.ts check-auto-delete",
+    "squash-merge": "ts-node --transpile-only src/actions/set-squash-merge.ts",
+    "check-merge": "ts-node --transpile-only src/index.ts check-merge"
   },
   "devDependencies": {
     "@octokit/rest": "^21.1.1",
