@@ -20,7 +20,6 @@
  */
 
 import * as dotenv from "dotenv";
-import { Octokit } from "@octokit/rest";
 import { 
   getGitRemoteInfo, 
   createGitHubClient, 
