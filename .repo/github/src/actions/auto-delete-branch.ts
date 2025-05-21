@@ -20,14 +20,20 @@
 
 import * as dotenv from "dotenv";
 import { getGitRemoteInfo, createGitHubClient } from "../utils/github";
-import { recordConfigured } from "../utils/gh-settings";
+import { isConfigured, recordConfigured } from "../utils/gh-settings";
 
 dotenv.config();
+
+const featureName = "auto-delete-branch";
 
 /**
  * 저장소에 대한 '자동으로 병합된 브랜치 삭제' 옵션을 활성화합니다.
  */
 export async function enableAutoDeleteMergedBranches() {
+  if (isConfigured(featureName)) {
+    return;
+  }
+
   const token = process.env.GITHUB_TOKEN!;
 
   if (!token) {
@@ -51,7 +57,7 @@ export async function enableAutoDeleteMergedBranches() {
     console.log(`✅ PR 병합 시 브랜치 자동 삭제 옵션이 활성화되었습니다: ${owner}/${repo}`);
     console.log(`ℹ️ 이제부터 PR이 머지되면 소스 브랜치가 자동으로 삭제됩니다.`);
     
-    recordConfigured("auto-delete-branch");
+    recordConfigured(featureName);
   } catch (error) {
     console.error("❌ 저장소 설정 업데이트 중 오류 발생:", error);
     process.exit(1);

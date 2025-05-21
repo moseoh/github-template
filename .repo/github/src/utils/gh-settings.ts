@@ -26,11 +26,27 @@ export function recordConfigured(featureName: string): void {
   const filePath = join(INSTALL_DIR, featureName);
   
   try {
-    writeFileSync(filePath, `installed=${timestamp}\n`);
-    console.log(`✅ 기능 설치 기록: ${featureName}`);
+    writeFileSync(filePath, `configured=${timestamp}\n`);
+    console.log(`✅ github 설정 기록: ${featureName}`);
   } catch (error) {
     console.error(`❌ 설치 기록 중 오류 발생 (${featureName}):`, error);
   }
+}
+
+/**
+ * 기능이 이미 설치/설정되었는지 확인
+ * @param featureName 기능 이름
+ * @returns 설치/설정 여부 (true/false)
+ */
+export function isConfigured(featureName: string): boolean {
+  ensureInstallDir();
+  const filePath = join(INSTALL_DIR, featureName);
+
+  const exists = existsSync(filePath);
+  if (exists) {
+    console.log(`✅ github 설정 기록: ${featureName}`);
+  }
+  return exists;
 }
 
 // 초기화: 설치 디렉토리 확인

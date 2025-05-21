@@ -59,11 +59,8 @@ async function main() {
       await setSquashMergePreference();
       break;
     case "all":
-      console.log("🚀 모든 기능 실행 중...");
       await protectBranches();
-      console.log("\n");
       await enableAutoDeleteMergedBranches();
-      console.log("\n");
       await setSquashMergePreference();
       break;
     case "help":
